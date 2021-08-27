@@ -24,11 +24,9 @@ public class Device {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NonNull
+
     private String serialNumber;
-    @NonNull
     private String macAddress;
-    @NonNull
     private String qrCode;
 
     @Enumerated(EnumType.STRING)
