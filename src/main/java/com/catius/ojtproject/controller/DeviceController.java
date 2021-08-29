@@ -27,6 +27,7 @@ public class DeviceController {
     @GetMapping("/device/{serialNumber}")
     public DeviceDetailDto getDeviceDetailSerialNumber(
             @PathVariable  String serialNumber){
+
         return deviceProxy.getDeviceDetailSerialNumber(serialNumber);
     }
 
