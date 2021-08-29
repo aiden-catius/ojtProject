@@ -15,6 +15,7 @@ import javax.validation.Valid;
 @Slf4j
 @RequiredArgsConstructor
 public class DeviceController {
+
     private final DeviceProxy deviceProxy;
 
     @PostMapping("/device")
