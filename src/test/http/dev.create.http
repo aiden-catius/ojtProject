@@ -1,0 +1,13 @@
+###
+### Send POST request with json body
+POST http://localhost:8080/device
+Content-Type: application/json
+
+{
+  "id": "test",
+  "serialNumber": "abc101010",
+  "macAddress" : "mac101",
+  "qrCode" : "https://catius.io",
+  "statusCode" : "ACTIVE",
+  "version": "1.0.0"
+}

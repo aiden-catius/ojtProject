@@ -36,6 +36,7 @@ public class CreateDevice {
     @Getter
     @Setter
     @Builder
+    @ToString
     public static class Response{
         private String serialNumber;
         private String macAddress;

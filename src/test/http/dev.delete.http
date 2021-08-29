@@ -1,0 +1,7 @@
+DELETE http://localhost:8080/device/abc101010
+Content-Type: application/json
+
+
+{
+  "serialNumber" : "abc101010"
+}

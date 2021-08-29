@@ -1,0 +1,8 @@
+PUT http://localhost:8080/device/abc101010
+Content-Type: application/json
+
+
+  {
+    "statusCode" : "INACTIVE",
+    "version": "1.0.0"
+  }
