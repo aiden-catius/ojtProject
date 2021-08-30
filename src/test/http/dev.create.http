@@ -5,9 +5,9 @@ Content-Type: application/json
 
 {
   "id": "test",
-  "serialNumber": "abc101010",
-  "macAddress" : "mac101",
-  "qrCode" : "https://catius.io",
+  "serialNumber": "a",
+  "macAddress" : "a",
+  "qrCode" : "https://q.q",
   "statusCode" : "ACTIVE",
   "version": "1.0.0"
 }

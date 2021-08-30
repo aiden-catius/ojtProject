@@ -1,24 +1,20 @@
 package com.catius.ojtproject.service;
 
-import com.catius.ojtproject.domain.Device;
 import com.catius.ojtproject.dto.CreateDevice;
-import com.catius.ojtproject.dto.DeviceDetailDto;
-import com.catius.ojtproject.dto.EditDeviceRequest;
-import com.catius.ojtproject.exception.DeviceException;
-import org.springframework.transaction.annotation.Transactional;
+import com.catius.ojtproject.dto.DeviceDetail;
+import com.catius.ojtproject.dto.EditDevice;
 
-import static com.catius.ojtproject.code.StatusCode.ACTIVE;
-import static com.catius.ojtproject.exception.DeviceErrorCode.NO_DEVICE;
+import java.util.List;
 
 public interface DeviceService {
 
 
-    CreateDevice.Response createDeviceSerialNumber(CreateDevice.Request request);
-    DeviceDetailDto getDeviceDetailSerialNumber(String serialNumber);
-    DeviceDetailDto getDeviceDetailQrCode(String qrCode);
-    DeviceDetailDto getDeviceDetailMacAddress(String macAddress);
-    DeviceDetailDto editDeviceStatus(String serialNumber, EditDeviceRequest request);
-    void deleteDeivceSerialNumber(String serialNumber);
+    CreateDevice.Response createDevice(CreateDevice.Request request);
+    DeviceDetail getDeviceDetailSerialNumber(String serialNumber);
+    DeviceDetail editDeviceStatus(String serialNumber, EditDevice request);
+    DeviceDetail deleteDeviceSerialNumber(String serialNumber);
 
-
+    List<DeviceDetail> getSearchDeviceSerialNumber(String search);
+    List<DeviceDetail> getSearchDeviceMacAddress(String macAddress);
+    List<DeviceDetail> getSearchDeviceQrCode(String qrCode);
 }

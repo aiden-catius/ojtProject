@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Builder
 @ToString
-public class EditDeviceRequest {
+public class EditDevice {
 
 
     private String version;

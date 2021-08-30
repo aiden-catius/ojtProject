@@ -1,6 +1,7 @@
 package com.catius.ojtproject.domain;
 
 
+import com.catius.ojtproject.code.DeleteStatusCode;
 import com.catius.ojtproject.code.StatusCode;
 import lombok.*;
 import org.hibernate.validator.constraints.UniqueElements;
@@ -31,6 +32,8 @@ public class Device {
 
     @Enumerated(EnumType.STRING)
     private StatusCode statusCode;
+    @Enumerated(EnumType.STRING)
+    private DeleteStatusCode deleteStatusCode;
 
     private String version;
 
