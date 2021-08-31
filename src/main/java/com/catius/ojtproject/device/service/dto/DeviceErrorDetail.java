@@ -1,6 +1,6 @@
-package com.catius.ojtproject.dto;
+package com.catius.ojtproject.device.service.dto;
 
-import com.catius.ojtproject.exception.DeviceErrorCode;
+import com.catius.ojtproject.device.exception.DeviceErrorCode;
 import lombok.*;
 
 @Getter

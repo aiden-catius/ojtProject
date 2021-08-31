@@ -1,8 +1,8 @@
-package com.catius.ojtproject.dto;
+package com.catius.ojtproject.device.service.dto;
 
 import com.catius.ojtproject.code.DeleteStatusCode;
 import com.catius.ojtproject.code.StatusCode;
-import com.catius.ojtproject.domain.Device;
+import com.catius.ojtproject.device.domain.Device;
 import lombok.*;
 
 

@@ -1,10 +1,8 @@
-package com.catius.ojtproject.dto;
+package com.catius.ojtproject.device.service.dto;
 
 
 import com.catius.ojtproject.code.StatusCode;
 import lombok.*;
-
-import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter

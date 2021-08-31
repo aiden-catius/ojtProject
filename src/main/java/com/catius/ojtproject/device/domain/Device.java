@@ -1,4 +1,4 @@
-package com.catius.ojtproject.domain;
+package com.catius.ojtproject.device.domain;
 
 
 import com.catius.ojtproject.code.DeleteStatusCode;

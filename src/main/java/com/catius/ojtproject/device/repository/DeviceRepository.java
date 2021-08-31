@@ -1,6 +1,6 @@
-package com.catius.ojtproject.repository;
+package com.catius.ojtproject.device.repository;
 
-import com.catius.ojtproject.domain.Device;
+import com.catius.ojtproject.device.domain.Device;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

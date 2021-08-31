@@ -1,13 +1,13 @@
-package com.catius.ojtproject.service;
+package com.catius.ojtproject.device.service;
 
 
 import com.catius.ojtproject.code.DeleteStatusCode;
 import com.catius.ojtproject.code.StatusCode;
-import com.catius.ojtproject.domain.Device;
-import com.catius.ojtproject.dto.CreateDevice;
-import com.catius.ojtproject.dto.DeviceDetail;
-import com.catius.ojtproject.dto.EditDevice;
-import com.catius.ojtproject.repository.DeviceRepository;
+import com.catius.ojtproject.device.domain.Device;
+import com.catius.ojtproject.device.controller.request.DeviceCreateRequest;
+import com.catius.ojtproject.device.service.dto.DeviceDetail;
+import com.catius.ojtproject.device.service.dto.EditDevice;
+import com.catius.ojtproject.device.repository.DeviceRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -63,7 +63,7 @@ public class DeviceServiceImplTest {
                 ArgumentCaptor.forClass(Device.class);
         //when
 
-        CreateDevice.Request request = CreateDevice.Request.builder()
+        DeviceCreateRequest.Request request = DeviceCreateRequest.Request.builder()
                 .serialNumber("213123asdsad123")
                 .macAddress("asdad123asd")
                 .qrCode("https://www.naver.com/")

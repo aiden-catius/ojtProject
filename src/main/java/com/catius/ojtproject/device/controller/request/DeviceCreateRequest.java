@@ -1,15 +1,13 @@
-package com.catius.ojtproject.dto;
+package com.catius.ojtproject.device.controller.request;
 
-import com.catius.ojtproject.code.StatusCode;
-import com.catius.ojtproject.domain.Device;
+import com.catius.ojtproject.device.domain.Device;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 
 
-
-public class CreateDevice {
+public class DeviceCreateRequest {
 
     @NoArgsConstructor
     @AllArgsConstructor
@@ -20,6 +18,7 @@ public class CreateDevice {
     public static class Request{
 
         @NotBlank(message = "serialNumber는 빈값 일 수 없습니다.")
+        @NotEmpty
         private String serialNumber;
 
         @NotBlank(message = "macAddress는 빈값 일 수 없습니다")

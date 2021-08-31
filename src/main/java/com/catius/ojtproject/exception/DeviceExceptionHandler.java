@@ -1,6 +1,8 @@
 package com.catius.ojtproject.exception;
 
-import com.catius.ojtproject.dto.DeviceErrorDetail;
+import com.catius.ojtproject.device.exception.DeviceErrorCode;
+import com.catius.ojtproject.device.exception.DeviceException;
+import com.catius.ojtproject.device.service.dto.DeviceErrorDetail;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.HttpRequestMethodNotSupportedException;

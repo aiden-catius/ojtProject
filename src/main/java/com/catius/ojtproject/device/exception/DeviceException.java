@@ -1,4 +1,4 @@
-package com.catius.ojtproject.exception;
+package com.catius.ojtproject.device.exception;
 
 import lombok.Getter;
 

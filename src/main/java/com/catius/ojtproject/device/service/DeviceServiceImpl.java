@@ -1,14 +1,12 @@
-package com.catius.ojtproject.service;
+package com.catius.ojtproject.device.service;
 
 import com.catius.ojtproject.code.DeleteStatusCode;
-import com.catius.ojtproject.domain.Device;
-import com.catius.ojtproject.dto.CreateDevice;
-import com.catius.ojtproject.dto.DeviceDetail;
-import com.catius.ojtproject.dto.DeviceDto;
-import com.catius.ojtproject.dto.EditDevice;
-import com.catius.ojtproject.exception.DeviceErrorCode;
-import com.catius.ojtproject.exception.DeviceException;
-import com.catius.ojtproject.repository.DeviceRepository;
+import com.catius.ojtproject.device.domain.Device;
+import com.catius.ojtproject.device.controller.request.DeviceCreateRequest;
+import com.catius.ojtproject.device.service.dto.DeviceDetail;
+import com.catius.ojtproject.device.service.dto.EditDevice;
+import com.catius.ojtproject.device.exception.DeviceException;
+import com.catius.ojtproject.device.repository.DeviceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.catius.ojtproject.code.StatusCode.*;
-import static com.catius.ojtproject.exception.DeviceErrorCode.*;
+import static com.catius.ojtproject.device.exception.DeviceErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +27,7 @@ public class DeviceServiceImpl implements DeviceService {
 
 
     @Transactional
-    public CreateDevice.Response createDevice(CreateDevice.Request request){
+    public DeviceCreateRequest.Response createDevice(DeviceCreateRequest.Request request){
         Device newDevice = Device.builder()
                 .serialNumber(request.getSerialNumber())
                 .macAddress(request.getMacAddress())
@@ -45,7 +43,7 @@ public class DeviceServiceImpl implements DeviceService {
 
         deviceRepository.save(newDevice);
 
-        return CreateDevice.Response.fromEntity(newDevice);
+        return DeviceCreateRequest.Response.fromEntity(newDevice);
     }
 
 

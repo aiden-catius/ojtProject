@@ -29,6 +29,7 @@ dependencies {
     testImplementation("org.junit.vintage:junit-vintage-engine") {
         exclude group: "org.hamcrest", module: "hamcrest-core"
     }
+    implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.5'
 }
 
 test {
