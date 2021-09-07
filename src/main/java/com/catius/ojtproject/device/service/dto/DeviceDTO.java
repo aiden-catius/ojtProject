@@ -1,22 +1,29 @@
 package com.catius.ojtproject.device.service.dto;
 
+import com.catius.ojtproject.code.DeleteStatusCode;
 import com.catius.ojtproject.code.StatusCode;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
+@Builder
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class DeviceDto {
+
+public class DeviceDTO {
+
+    private Long id;
 
     private String serialNumber;
+
     private String macAddress;
+
     private String qrCode;
+
     private StatusCode statusCode;
+
+    private DeleteStatusCode deleteStatusCode;
+
     private String version;
 
 

@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class DeviceException extends RuntimeException {
-    private DeviceErrorCode deviceErrorCode;
+    private final DeviceErrorCode deviceErrorCode;
     private String detailMessage;
 
     public DeviceException(DeviceErrorCode deviceErrorCode) {

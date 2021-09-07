@@ -1,23 +1,20 @@
 package com.catius.ojtproject.device.service;
 
-import com.catius.ojtproject.device.controller.request.DeviceSearchRequest;
-import com.catius.ojtproject.device.controller.request.DeviceCreateRequest;
-import com.catius.ojtproject.device.service.dto.DeviceDetail;
-import com.catius.ojtproject.device.service.dto.EditDevice;
+import com.catius.ojtproject.device.service.dto.DeviceDTO;
+import com.catius.ojtproject.device.controller.request.EditDeviceRequest;
 
 import java.util.List;
 
 public interface DeviceService {
 
+    DeviceDTO createDevice(DeviceDTO deviceDTO);
+    DeviceDTO getDevice(Long deviceId);
+    DeviceDTO editDevice(Long deviceId, EditDeviceRequest request);
+    DeviceDTO deleteDevice(Long deviceId);
 
-    DeviceCreateRequest.Response createDevice(DeviceCreateRequest.Request request);
-    DeviceDetail getDeviceDetailSerialNumber(String serialNumber);
-    DeviceDetail editDeviceStatus(String serialNumber, EditDevice request);
-    DeviceDetail deleteDeviceSerialNumber(String serialNumber);
 
-    List<DeviceDetail> getSearchDeviceSerialNumber(String search);
-    List<DeviceDetail> getSearchDeviceMacAddress(String macAddress);
-    List<DeviceDetail> getSearchDeviceQrCode(String qrCode);
+    List<DeviceDTO> getDevices(DeviceDTO deviceDTO);
 
-    List<DeviceDetail> getSearchDevices(DeviceSearchRequest deviceSearchRequest);
+
+
 }

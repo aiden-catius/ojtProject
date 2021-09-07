@@ -12,7 +12,8 @@ public enum DeviceErrorCode {
     DUPLICATED_MAC_ADDRESS("이미 등록되어있는 MacAddress입니다."),
     DUPLICATED_QRCOE("이미 등록되어있는 QRcode입니다"),
     INTERNAL_SERVER_ERROR("서버에 오류가 발생했습니다."),
-    INVALID_REQUEST("잘못된 요청입니다");
+    INVALID_REQUEST("잘못된 요청입니다"),
+    INVALID_REQUEST_PARAM("유효한파라미터가 없습니다.");
 
 
     private String message;

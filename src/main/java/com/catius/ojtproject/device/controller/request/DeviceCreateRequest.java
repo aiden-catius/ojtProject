@@ -1,59 +1,48 @@
 package com.catius.ojtproject.device.controller.request;
 
-import com.catius.ojtproject.device.domain.Device;
+import com.catius.ojtproject.device.service.dto.DeviceDTO;
 import lombok.*;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
-
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Builder
+@ToString
 public class DeviceCreateRequest {
 
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Getter
-    @Setter
-    @Builder
-    @ToString
-    public static class Request{
+        @NotEmpty(message = "serialNumber는 빈값 일 수 없습니다.")
+        private String serialNumber;
 
-        @NotBlank(message = "serialNumber는 빈값 일 수 없습니다.")
+        @NotEmpty(message = "macAddress는 빈값 일 수 없습니다")
+        private String macAddress;
+
+        @NotEmpty(message = "macAddress는 빈값 일 수 없습니다")
+        private String qrCode;
+
         @NotEmpty
-        private String serialNumber;
-
-        @NotBlank(message = "macAddress는 빈값 일 수 없습니다")
-        private String macAddress;
-
-        @NotBlank(message = "macAddress는 빈값 일 수 없습니다")
-        private String qrCode;
-
-        @NotBlank
         private String version;
 
-    }
-
-
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Getter
-    @Setter
-    @Builder
-    @ToString
-    public static class Response{
-        private String serialNumber;
-        private String macAddress;
-        private String qrCode;
-        private String version;
-
-        public static Response fromEntity(Device device){
-            return Response.builder()
-                    .serialNumber(device.getSerialNumber())
-                    .macAddress(device.getMacAddress())
-                    .qrCode(device.getQrCode())
-                    .version(device.getVersion())
-                    .build();
+        public static com.catius.ojtproject.device.domain.Device convertEntity(DeviceCreateRequest deviceCreateRequest){
+                return com.catius.ojtproject.device.domain.Device.builder()
+                        .serialNumber(deviceCreateRequest.getSerialNumber())
+                        .macAddress(deviceCreateRequest.getMacAddress())
+                        .qrCode(deviceCreateRequest.getQrCode())
+                        .version(deviceCreateRequest.getVersion())
+                        .build();
         }
 
-    }
+        public static DeviceDTO convertDTO(DeviceCreateRequest deviceCreateRequest){
+                return DeviceDTO.builder()
+                        .serialNumber(deviceCreateRequest.getSerialNumber())
+                        .macAddress(deviceCreateRequest.getMacAddress())
+                        .qrCode(deviceCreateRequest.getQrCode())
+                        .version(deviceCreateRequest.getVersion())
+                        .build();
+        }
+
+
 
 }

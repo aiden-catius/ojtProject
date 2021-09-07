@@ -4,9 +4,12 @@ package com.catius.ojtproject.device.service;
 import com.catius.ojtproject.code.DeleteStatusCode;
 import com.catius.ojtproject.code.StatusCode;
 import com.catius.ojtproject.device.domain.Device;
-import com.catius.ojtproject.device.controller.request.DeviceCreateRequest;
-import com.catius.ojtproject.device.service.dto.DeviceDetail;
-import com.catius.ojtproject.device.service.dto.EditDevice;
+import com.catius.ojtproject.device.domain.DeviceObjectMother;
+import com.catius.ojtproject.device.repository.DeviceRepositoryImpl;
+import com.catius.ojtproject.device.controller.response.DeviceResponse;
+import com.catius.ojtproject.device.service.dto.DeviceDTO;
+import com.catius.ojtproject.device.service.dto.DeviceFactory;
+import com.catius.ojtproject.device.controller.request.EditDeviceRequest;
 import com.catius.ojtproject.device.repository.DeviceRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,16 +19,15 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -33,6 +35,9 @@ public class DeviceServiceImplTest {
 
     @Mock
     private DeviceRepository deviceRepository;
+
+    @Mock
+    private DeviceRepositoryImpl deviceRepositoryImpl;
 
     @InjectMocks
     private DeviceServiceImpl deviceService;
@@ -49,7 +54,7 @@ public class DeviceServiceImplTest {
 
 
     @Test
-    public void createDevice() throws Exception {
+    public void  shouldCreateDevice() throws Exception {
 
         given(deviceRepository.findBySerialNumber(anyString()))
                 .willReturn(Optional.empty());
@@ -63,7 +68,7 @@ public class DeviceServiceImplTest {
                 ArgumentCaptor.forClass(Device.class);
         //when
 
-        DeviceCreateRequest.Request request = DeviceCreateRequest.Request.builder()
+        DeviceDTO request = DeviceDTO.builder()
                 .serialNumber("213123asdsad123")
                 .macAddress("asdad123asd")
                 .qrCode("https://www.naver.com/")
@@ -83,7 +88,7 @@ public class DeviceServiceImplTest {
         verify(deviceRepository, times(1))
                 .save(captor.capture());
 
-        Device saveddevice = captor.getValue();
+       Device saveddevice = captor.getValue();
 
         assertEquals("213123asdsad123",saveddevice.getSerialNumber());
         assertEquals("asdad123asd",saveddevice.getMacAddress());
@@ -93,19 +98,21 @@ public class DeviceServiceImplTest {
     }
 
     @Test
-    public void getDeviceDetailSerialNuTmber() throws Exception {
+    public void shouldGetDevice() throws Exception {
 
 
         given(deviceRepository.findBySerialNumber(anyString()))
                 .willReturn(Optional.of(device));
 
-        DeviceDetail deviceDetail = deviceService.getDeviceDetailSerialNumber("213123asdsad123");
+        DeviceDTO deviceDTO = deviceService.getDevice(123L);
 
-        assertEquals("213123asdsad123", deviceDetail.getSerialNumber());
-        assertEquals("asdad123asd", deviceDetail.getMacAddress());
-        assertEquals("https://www.naver.com/", deviceDetail.getQrCode());
-        assertEquals(StatusCode.ACTIVE, deviceDetail.getStatusCode());
-        assertEquals("0.0.1", deviceDetail.getVersion());
+        DeviceResponse response  = DeviceResponse.convertResponse(deviceDTO);
+
+        assertEquals("213123asdsad123", response.getSerialNumber());
+        assertEquals("asdad123asd", response.getMacAddress());
+        assertEquals("https://www.naver.com/", response.getQrCode());
+        assertEquals(StatusCode.ACTIVE, response.getStatusCode());
+        assertEquals("0.0.1", response.getVersion());
 
     }
 
@@ -118,101 +125,73 @@ public class DeviceServiceImplTest {
                 .willReturn(Optional.of(device));
 
         //when
-        EditDevice request = EditDevice.builder()
+        EditDeviceRequest request = EditDeviceRequest.builder()
                 .statusCode(StatusCode.INACTIVE)
                 .version("0.0.1")
                 .build();
 
 
-        DeviceDetail deviceDetail = deviceService.editDeviceStatus("serial123",request);
+        DeviceDTO deviceDTO = deviceService.editDevice(1L,request);
 
 
         verify(deviceRepository, times(1)).findBySerialNumber("serial123");
 
-        assertEquals(StatusCode.INACTIVE, deviceDetail.getStatusCode());
+        assertEquals(StatusCode.INACTIVE, DeviceResponse.convertResponse(deviceDTO).getStatusCode());
 
 
     }
 
     @Test
-    public void deleteDeviceSerialNumber() throws Exception {
+    public void deleteDevice() throws Exception {
         //given
 
-        String serialNumber = "213123asdsad123";
+        Long memberId = 1L;
 
         given(deviceRepository.findBySerialNumber(anyString()))
                 .willReturn(Optional.of(device));
         //when
-        DeviceDetail deviceDetail = deviceService.deleteDeviceSerialNumber(serialNumber);
+        DeviceDTO deviceDTO = deviceService.deleteDevice(memberId);
+
+
+        DeviceResponse deviceResponse = DeviceResponse.convertResponse(deviceDTO);
 
         //then
-        verify(deviceRepository,times(1)).findBySerialNumber(serialNumber);
+        verify(deviceRepository,times(1)).findById(memberId);
 
         ArgumentCaptor<String> captor =
                 ArgumentCaptor.forClass(String.class);
 
 
-        assertEquals(DeleteStatusCode.TRUE,deviceDetail.getDeleteStatusCode());
+        assertEquals(DeleteStatusCode.TRUE, deviceResponse.getDeleteStatusCode());
     }
 
 
     @Test
-    public void getSearchDeviceSerialNumber() {
+    public void getDeivecs() throws Exception {
+        Device device = DeviceObjectMother.createDevice();
 
-        //given
-        List<Device> deviceList = new ArrayList<>();
-        deviceList.add(device);
-        given(deviceRepository.findBySerialNumberContaining(anyString()))
-                .willReturn(deviceList);
+       /*  Device.builder()
+                .serialNumber("serial123")
+                .macAddress("mac123")
+                .qrCode("qr123")
+                .statusCode(StatusCode.ACTIVE)
+                .deleteStatusCode(DeleteStatusCode.FALSE)
+                .version("0.0.1")
+                .build();*/
+
+        when(deviceRepositoryImpl.findContaining(any(DeviceDTO.class)))
+                .thenReturn(Arrays.asList(device));
+
 
         //when
-        List<DeviceDetail> deviceDetails = deviceService.getSearchDeviceSerialNumber("asd");
+        List<DeviceDTO> deviceDTOS = DeviceFactory.getDeviceDTOs(deviceRepositoryImpl.findContaining(DeviceDTO.builder()
+                .serialNumber("a")
+                .build()));
 
-        verify(deviceRepository,times(1)).findBySerialNumberContaining("asd");
-
-        List<DeviceDetail> deviceDetailsResult = deviceList.stream().map(DeviceDetail::fromEntity).collect(Collectors.toList());
-
-        assertEquals(device.getSerialNumber(),deviceDetailsResult.get(0).getSerialNumber());
-
-
+        //then
+        assertEquals(1,deviceDTOS.size());
+        assertEquals("serial123",deviceDTOS.get(0).getSerialNumber());
     }
 
-    @Test
-    public void getSearchDeviceQrCode() {
-        //given
-        List<Device> deviceList = new ArrayList<>();
-        deviceList.add(device);
 
-        given(deviceRepository.findByQrCodeContaining(anyString()))
-                .willReturn(deviceList);
-
-        //when
-        List<DeviceDetail> deviceDetails = deviceService.getSearchDeviceQrCode("naver");
-
-        verify(deviceRepository,times(1)).findByQrCodeContaining("naver");
-
-        List<DeviceDetail> deviceDetailsResult = deviceList.stream().map(DeviceDetail::fromEntity).collect(Collectors.toList());
-
-        assertEquals(device.getQrCode(),deviceDetailsResult.get(0).getQrCode());
-
-    }
-
-    @Test
-    public void getSearchDeviceMacAddress() {
-        //given
-        List<Device> deviceList = new ArrayList<>();
-        deviceList.add(device);
-        given(deviceRepository.findByMacAddressContaining(anyString()))
-                .willReturn(deviceList);
-
-        //when
-        List<DeviceDetail> deviceDetails = deviceService.getSearchDeviceMacAddress("dad");
-
-        verify(deviceRepository,times(1)).findByMacAddressContaining("dad");
-
-        List<DeviceDetail> deviceDetailsResult = deviceList.stream().map(DeviceDetail::fromEntity).collect(Collectors.toList());
-
-        assertEquals(device.getMacAddress(),deviceDetailsResult.get(0).getMacAddress());
-
-    }
 }
