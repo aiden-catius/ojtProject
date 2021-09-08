@@ -4,7 +4,6 @@ import com.catius.ojtproject.device.domain.Device;
 import com.catius.ojtproject.device.exception.DeviceErrorCode;
 import com.catius.ojtproject.device.exception.DeviceException;
 import com.catius.ojtproject.device.service.dto.DeviceDTO;
-import com.catius.ojtproject.device.service.dto.DeviceFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -25,9 +24,9 @@ public class DeviceRepositoryImpl implements DeviceRepositoryCustom {
     @Override
     public List<Device> findContaining(DeviceDTO deviceDTO) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<com.catius.ojtproject.device.domain.Device> cq = cb.createQuery(com.catius.ojtproject.device.domain.Device.class);
+        CriteriaQuery<Device> cq = cb.createQuery(Device.class);
 
-        Root<com.catius.ojtproject.device.domain.Device> device = cq.from(com.catius.ojtproject.device.domain.Device.class);
+        Root<Device> device = cq.from(Device.class);
 
         List<Predicate> predicates = new ArrayList<>();
 
