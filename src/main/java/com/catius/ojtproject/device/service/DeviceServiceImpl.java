@@ -1,21 +1,16 @@
 package com.catius.ojtproject.device.service;
 
+import com.catius.ojtproject.device.controller.request.EditDeviceRequest;
 import com.catius.ojtproject.device.domain.Device;
 import com.catius.ojtproject.device.exception.DeviceException;
 import com.catius.ojtproject.device.repository.DeviceRepository;
-import com.catius.ojtproject.device.repository.DeviceRepositoryImpl;
-import com.catius.ojtproject.device.repository.specification.DeviceSpecification;
 import com.catius.ojtproject.device.service.dto.DeviceDTO;
 import com.catius.ojtproject.device.service.dto.DeviceFactory;
-import com.catius.ojtproject.device.controller.request.EditDeviceRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
-import javax.persistence.criteria.Predicate;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.catius.ojtproject.device.exception.DeviceErrorCode.*;
@@ -29,7 +24,7 @@ public class DeviceServiceImpl implements DeviceService {
 
 
     private final DeviceRepository deviceRepository;
-    private final DeviceRepositoryImpl deviceRepositoryImple;
+
 
 
     @Transactional
@@ -53,29 +48,25 @@ public class DeviceServiceImpl implements DeviceService {
 
     @Transactional
     public DeviceDTO editDevice(Long deviceId, EditDeviceRequest request) {
-        com.catius.ojtproject.device.domain.Device device = deviceRepository.findById(deviceId).orElseThrow(
+        Device device = deviceRepository.findById(deviceId).orElseThrow(
                 () -> new DeviceException(NO_DEVICE)
         );
 
-        if(!device.activeDeivce()){
+        if(!device.inActiveDeivce()){
             throw new DeviceException(INVALID_REQUEST);
         }
 
         return DeviceFactory.getDeviceDTO(device);
     }
 
-
-
-
     @Transactional
     public DeviceDTO deleteDevice(Long deviceId) {
-        com.catius.ojtproject.device.domain.Device device = deviceRepository.findById(deviceId).orElseThrow(
+        Device device = deviceRepository.findById(deviceId).orElseThrow(
                 () -> new DeviceException(NO_DEVICE)
         );
 
         if(!device.deleteDevice()){
-            // Todo 오류 코드 추가해서 던지기 (이미 삭제 처리된 디바이스)
-            throw  new DeviceException(INVALID_REQUEST);
+            throw  new DeviceException(DELETED_DEVICE);
         }
 
         return DeviceFactory.getDeviceDTO(device);
@@ -85,9 +76,6 @@ public class DeviceServiceImpl implements DeviceService {
     @Override
     public List<DeviceDTO> getDevices(DeviceDTO deviceDTO) {
 
-
-
-
 //       return DeviceFactory.getDeviceDTOs(deviceRepository.findAll(Specification.where(requestContain(deviceDTO))));
 
         return DeviceFactory.getDeviceDTOs(deviceRepository.findAll(Specification.where(macAddressContain(deviceDTO.getMacAddress()))
@@ -95,7 +83,7 @@ public class DeviceServiceImpl implements DeviceService {
                 .and(serialNumberContain(deviceDTO.getSerialNumber()))
         ));
 
-//        return DeviceFactory.getDeviceDTOs(deviceRepositoryImple.findContaining(deviceDTO));
+//        return DeviceFactory.getDeviceDTOs(deviceRepositoryImpl.findContaining(deviceDTO));
 
 /*        return deviceRepository.findByIdContaining(getDevicesServiceRequest.getSerialNumber(), getDevicesServiceRequest.getMacAddress(), getDevicesServiceRequest.getQrCode())
                 .stream().map(DeviceDetail::fromEntity)

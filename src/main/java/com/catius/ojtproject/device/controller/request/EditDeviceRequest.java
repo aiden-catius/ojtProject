@@ -5,6 +5,7 @@ import com.catius.ojtproject.code.StatusCode;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -27,7 +28,7 @@ public class EditDeviceRequest {
     @NotEmpty
     private String version;
 
-    @NotEmpty
+    @NotNull
     private StatusCode statusCode;
 
 

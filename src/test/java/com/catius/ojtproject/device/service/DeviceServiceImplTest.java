@@ -5,8 +5,10 @@ import com.catius.ojtproject.code.DeleteStatusCode;
 import com.catius.ojtproject.code.StatusCode;
 import com.catius.ojtproject.device.domain.Device;
 import com.catius.ojtproject.device.domain.DeviceObjectMother;
-import com.catius.ojtproject.device.repository.DeviceRepositoryImpl;
+import com.catius.ojtproject.device.exception.DeviceErrorCode;
+import com.catius.ojtproject.device.exception.DeviceException;
 import com.catius.ojtproject.device.controller.response.DeviceResponse;
+import com.catius.ojtproject.device.repository.DeviceRepositoryImpl;
 import com.catius.ojtproject.device.service.dto.DeviceDTO;
 import com.catius.ojtproject.device.service.dto.DeviceFactory;
 import com.catius.ojtproject.device.controller.request.EditDeviceRequest;
@@ -51,12 +53,20 @@ public class DeviceServiceImplTest {
             .version("0.0.1")
             .build();
 
+    public static final EditDeviceRequest EditRequest = EditDeviceRequest.builder()
+            .serialNumber("serial123")
+            .qrCode("qr123")
+            .macAddress("mac123")
+            .version("1.0.0")
+            .statusCode(StatusCode.ACTIVE)
+            .build();
+
 
 
     @Test
     public void  shouldCreateDevice() throws Exception {
 
-        given(deviceRepository.findBySerialNumber(anyString()))
+        given(deviceRepository.findById(anyLong()))
                 .willReturn(Optional.empty());
 
         /**
@@ -192,6 +202,22 @@ public class DeviceServiceImplTest {
         assertEquals(1,deviceDTOS.size());
         assertEquals("serial123",deviceDTOS.get(0).getSerialNumber());
     }
+
+    @Test
+    public void shouldFailToEditDeviceWhenNoUser()throws Exception {
+
+        when(deviceRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+
+        DeviceException deviceException = assertThrows(DeviceException.class,
+                () -> deviceService.editDevice(1L,EditRequest)
+        );
+
+        assertEquals(DeviceErrorCode.NO_DEVICE,deviceException.getDeviceErrorCode());
+    }
+
+
+
 
 
 }

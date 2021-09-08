@@ -6,6 +6,8 @@ import com.catius.ojtproject.device.controller.request.DevicesRequest;
 import com.catius.ojtproject.device.controller.response.DeviceResponse;
 import com.catius.ojtproject.device.service.DeviceService;
 import com.catius.ojtproject.device.controller.request.EditDeviceRequest;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -25,6 +27,7 @@ public class DeviceController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation(value = "DeviceResponse")
     public DeviceResponse createDevice(
             @Valid @RequestBody DeviceCreateRequest request
     ){
@@ -35,6 +38,7 @@ public class DeviceController {
 
     @GetMapping(value = "/{deviceId}")
     @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(value = "getDevice")
     public DeviceResponse getDevice(
             @PathVariable  Long deviceId){
 
@@ -44,6 +48,7 @@ public class DeviceController {
 
     @PutMapping("/{deviceId}")
     @ResponseStatus(HttpStatus.ACCEPTED)
+    @ApiOperation(value = "editDevice")
     public DeviceResponse editDevice(
             @PathVariable Long deviceId, @Valid @RequestBody EditDeviceRequest request){
 
@@ -52,6 +57,7 @@ public class DeviceController {
 
     @DeleteMapping("/{deviceId}")
     @ResponseStatus(HttpStatus.ACCEPTED)
+    @ApiOperation(value = "deleteDevice")
     public void deleteDevice(
             @PathVariable Long deviceId){
         deviceService.deleteDevice(deviceId);
@@ -59,6 +65,7 @@ public class DeviceController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(value = "getDevices")
     public List<DeviceResponse> getDevices(
             @Valid DevicesRequest devicesRequest
     ){

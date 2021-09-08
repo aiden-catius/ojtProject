@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface DeviceRepository extends JpaRepository<Device,Long>, DeviceRepositoryCustom , JpaSpecificationExecutor<Device> {
+public interface DeviceRepository extends JpaRepository<Device,Long>, JpaSpecificationExecutor<Device> {
 
     Optional<Device> findById(Long id);
     Optional<Device> findBySerialNumber(String serialNumber);

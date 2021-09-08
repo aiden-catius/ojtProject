@@ -9,6 +9,7 @@ import javax.validation.constraints.Size;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @ToString
 public class DevicesRequest {
     @Size(max=10)
