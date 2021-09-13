@@ -10,4 +10,5 @@ public class OjtprojectApplication {
         SpringApplication.run(OjtprojectApplication.class, args);
     }
 
+
 }

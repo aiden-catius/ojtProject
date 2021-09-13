@@ -13,6 +13,7 @@ public class DeviceFactory {
 
     public static DeviceDTO getDeviceDTO(Device device) {
         return DeviceDTO.builder()
+                .id(device.getId())
                 .qrCode(device.getQrCode())
                 .serialNumber(device.getSerialNumber())
                 .macAddress(device.getMacAddress())
@@ -37,7 +38,7 @@ public class DeviceFactory {
                 .serialNumber(deviceDTO.getSerialNumber())
                 .macAddress(deviceDTO.getMacAddress())
                 .version(deviceDTO.getVersion())
-                .statusCode(StatusCode.ACTIVE)
+                .statusCode(StatusCode.INACTIVE)
                 .deleteStatusCode(DeleteStatusCode.TRUE)
                 .build();
     }

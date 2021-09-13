@@ -1,8 +1,15 @@
 spring:
- h2:
-  console:
-   enabled: true
+ datasource:
+#  url: jdbc:h2:~/ojtproject
+  url: jdbc:h2:tcp://localhost/~/ojtproject
+  username: sa
+  pssword:
+  driver-class-name: org.h2.Driver
+
+
  jpa:
+  hibernate:
+   ddl-auto: create
   show-sql: true
   properties:
    hibernate:

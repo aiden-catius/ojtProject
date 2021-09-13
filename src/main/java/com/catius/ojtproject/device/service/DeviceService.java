@@ -14,7 +14,7 @@ public interface DeviceService {
 
 
     List<DeviceDTO> getDevices(DeviceDTO deviceDTO);
-
+    DeviceDTO createAndUpdate(DeviceDTO deviceDTO);
 
 
 }

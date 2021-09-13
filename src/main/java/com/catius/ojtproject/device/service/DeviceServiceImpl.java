@@ -7,11 +7,14 @@ import com.catius.ojtproject.device.repository.DeviceRepository;
 import com.catius.ojtproject.device.service.dto.DeviceDTO;
 import com.catius.ojtproject.device.service.dto.DeviceFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.catius.ojtproject.device.exception.DeviceErrorCode.*;
 import static com.catius.ojtproject.device.repository.specification.DeviceSpecification.*;
@@ -25,6 +28,8 @@ public class DeviceServiceImpl implements DeviceService {
 
     private final DeviceRepository deviceRepository;
 
+    @Autowired
+    DeviceService deviceService;
 
 
     @Transactional
@@ -37,6 +42,8 @@ public class DeviceServiceImpl implements DeviceService {
 
         return DeviceFactory.getDeviceDTO(deviceRepository.save(DeviceFactory.getCreateDevice(deviceDTO)));
     }
+
+
 
 
     @Transactional
@@ -73,15 +80,32 @@ public class DeviceServiceImpl implements DeviceService {
 
     }
 
-    @Override
+
+
+
+
+
+    @Transactional
     public List<DeviceDTO> getDevices(DeviceDTO deviceDTO) {
+
 
 //       return DeviceFactory.getDeviceDTOs(deviceRepository.findAll(Specification.where(requestContain(deviceDTO))));
 
-        return DeviceFactory.getDeviceDTOs(deviceRepository.findAll(Specification.where(macAddressContain(deviceDTO.getMacAddress()))
+/*        return DeviceFactory.getDeviceDTOs(deviceRepository.findAll(Specification.where(macAddressContain(deviceDTO.getMacAddress()))
                 .and(qrCodeContain(deviceDTO.getQrCode()))
                 .and(serialNumberContain(deviceDTO.getSerialNumber()))
-        ));
+        ));*/
+
+        return DeviceFactory.getDeviceDTOs(
+                deviceRepository.findAll(Specification.where(
+                                findAllContain(
+                                        deviceDTO.getSerialNumber(),
+                                        deviceDTO.getMacAddress(),
+                                        deviceDTO.getQrCode())
+                        )).stream()
+                        .distinct()
+                        .collect(Collectors.toList()));
+
 
 //        return DeviceFactory.getDeviceDTOs(deviceRepositoryImpl.findContaining(deviceDTO));
 
@@ -89,6 +113,30 @@ public class DeviceServiceImpl implements DeviceService {
                 .stream().map(DeviceDetail::fromEntity)
                 .collect(Collectors.toList());*/
     }
+
+
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public DeviceDTO createAndUpdate(DeviceDTO deviceDTO){
+
+        DeviceDTO createDeviceDTO = createDevice(deviceDTO);
+
+        System.out.println(createDeviceDTO.toString());
+
+        DeviceDTO resultDto = null;
+        try {
+            resultDto = editDevice(1L, EditDeviceRequest.builder().build());
+        }catch (Exception e){
+            System.out.println(e);
+        }
+
+
+        System.out.println(resultDto.toString());
+
+        return resultDto;
+
+    }
+
 
 
 

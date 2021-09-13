@@ -27,7 +27,6 @@ public class DeviceRepositoryTest {
         //given
         Device device = DeviceObjectMother.createDevice();
 
-
         //when
         Device deviceResponse = deviceRepository.save(device);
 
